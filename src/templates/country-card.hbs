@@ -1,0 +1,14 @@
+<div class="box">
+    <h2 class="country-name">{{name}}</h2>
+    <div class="template-container">
+        <ul class="country-list">
+            <li class="country-item"><span>Capital</span> : {{capital}}</li>
+            <li class="country-item"><span>Population</span> : {{population}}</li>
+            <li class="country-item"><span>languages</span> : </li>
+            {{#each languages}}
+            <li class="country-itemt">{{name}}</li>
+            {{/each}}
+        </ul>
+        <img src="{{flag}}" class="img-flag" alt="{{name}}" width="220px">
+    </div>
+</div>
