@@ -1,3 +1,2 @@
 import './css/common.css';
-import './js/search-country.js'
-
+import './js/search-images.js';

@@ -1,6 +1,6 @@
 export default function getRefs() {
-    return {
-    countryContainer: document.querySelector('.country-container'),
-    inputEl: document.querySelector('.form-control'),
-}
+  return {
+    searchForm: document.querySelector('.js-search-form'),
+    imageContainer: document.querySelector('.js-articles-container'),
+  };
 }
