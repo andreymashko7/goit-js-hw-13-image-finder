@@ -2,7 +2,7 @@ import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';
 import { info, error } from '@pnotify/core';
 
-function searchError() {
+function Error() {
   error({
     text: 'Error no results found',
     delay: 1500,
@@ -17,4 +17,4 @@ function emptyInput() {
   });
 }
 
-export { emptyInput, searchError };
+export { emptyInput, Error };

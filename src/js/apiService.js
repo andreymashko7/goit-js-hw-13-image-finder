@@ -8,15 +8,13 @@ export default class GaleryApiService {
     this.page = 1;
   }
 
-  fetchFotos() {
+  async fetchFotos() {
     const url = `${BASE_URL}&q=${this.serchQuery}&page=${this.page}&per_page=12&key=${API_KEY}`;
+    const response = await fetch(url);
+    const newImages = await response.json();
 
-    return fetch(url)
-      .then(response => response.json())
-      .then(({ hits }) => {
-        this.incrementPage();
-        return hits;
-      });
+    this.incrementPage();
+    return newImages.hits;
   }
 
   incrementPage() {
@@ -35,3 +33,16 @@ export default class GaleryApiService {
     this.serchQuery = newquery;
   }
 }
+
+// ---------------------------- Promise ---------------------------------------------------------
+
+// fetchFotos() {
+//   const url = `${BASE_URL}&q=${this.serchQuery}&page=${this.page}&per_page=12&key=${API_KEY}`;
+
+//   return fetch(url)
+//     .then(response => response.json())
+//     .then(({ hits }) => {
+//       this.incrementPage();
+//       return hits;
+//     });
+// }

@@ -3,7 +3,7 @@ import imageTpl from '../templates/img-card.hbs';
 import getRefs from './get-refs';
 import LoadMoreBtn from './load-more-btn';
 import { onOpenModal } from './modal.js';
-import { emptyInput, searchError } from './notify.js';
+import { emptyInput, Error } from './notify.js';
 
 const refs = getRefs();
 let currentPosition = 0;
@@ -17,32 +17,41 @@ refs.searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.refs.button.addEventListener('click', fetchFotos);
 refs.imageContainer.addEventListener('click', onOpenModal);
 
-function onSearch(e) {
+async function onSearch(e) {
   e.preventDefault();
-  galeryApiService.query = e.currentTarget.elements.query.value;
 
-  if (galeryApiService.query === '') {
-    clearMarkup();
-    loadMoreBtn.hide();
-    emptyInput();
-    return;
-  } else {
-    loadMoreBtn.show();
-    galeryApiService.resetPage();
-    clearMarkup();
-    fetchFotos();
+  try {
+    galeryApiService.query = e.currentTarget.elements.query.value;
+
+    if (galeryApiService.query === '') {
+      clearMarkup();
+      loadMoreBtn.hide();
+      emptyInput();
+      return;
+    } else {
+      loadMoreBtn.show();
+      galeryApiService.resetPage();
+      clearMarkup();
+      fetchFotos();
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
-function fetchFotos() {
+async function fetchFotos() {
   loadMoreBtn.show();
   loadMoreBtn.disable();
 
   currentPosition = refs.imageContainer.offsetHeight;
-  galeryApiService.fetchFotos().then(images => {
-    renderImagesMarcup(images);
+
+  try {
+    const response = await galeryApiService.fetchFotos();
+    renderImagesMarcup(response);
     loadMoreBtn.enable();
-  });
+  } catch (error) {
+    console.log('ошибка');
+  }
 }
 
 function renderImagesMarcup(images) {
@@ -61,3 +70,34 @@ function scrollingPage() {
     behavior: 'smooth',
   });
 }
+
+// -----------------------------На промисах ---------------------------------------------
+
+// function onSearch(e) {
+//   e.preventDefault();
+//   galeryApiService.query = e.currentTarget.elements.query.value;
+
+//   if (galeryApiService.query === '') {
+//     clearMarkup();
+//     loadMoreBtn.hide();
+//     emptyInput();
+//     return;
+//   } else {
+//     loadMoreBtn.show();
+//     galeryApiService.resetPage();
+//     clearMarkup();
+//     fetchFotos();
+//   }
+// }
+
+// function fetchFotos() {
+//   loadMoreBtn.show();
+//   loadMoreBtn.disable();
+
+//   currentPosition = refs.imageContainer.offsetHeight;
+
+//   galeryApiService.fetchFotos().then(images => {
+//     renderImagesMarcup(images);
+//     loadMoreBtn.enable();
+//   });
+// }
